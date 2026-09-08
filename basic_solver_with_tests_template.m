@@ -11,24 +11,88 @@ function basic_solver_with_tests_template()
 
     % %Newton's method example test
     % 
-    x0_guess = linspace(1,3.5,1000);
+    % x0_guess = linspace(1,3.5,1000);
+    % en_list=[];
+    % en1_list=[];
+    % index_list = []; %line 36
+    % figure()
+    % 
+    % 
+    % for i=1:1000
+    % 
+    % 
+    %     [x_sol, xs_list, xs1_list] = newton_solver(@test_func01,x0_guess(i));  
+    % 
+    % 
+    %     en=abs(xs_list-x_sol);
+    %     en1=abs(xs1_list-x_sol);
+    %     en_list=[en_list,en];
+    %     en1_list=[en1_list,en1];
+    % 
+    %     index_list = [index_list,1:length(en)]; %line 54
+    % 
+    % end
+    %     x_regression = []; % e_n
+    %     y_regression = []; % e_{n+1}
+    %     filter_list = [1e-15, 1e-2, 1e-14, 1e-2, 2];
+    %     % iterate through the collected data
+    %     for n=1:length(index_list)
+    %     %if the error is not too big or too small
+    %     %and it was enough iterations into the trial...
+    %         if en_list(n)>filter_list(1) && en_list(n)<filter_list(2) && ...
+    %         en1_list(n)>filter_list(3) && en1_list(n)<filter_list(4) && ...
+    %         index_list(n)>filter_list(5)
+    %             %then add it to the set of points for regression
+    %             x_regression(end+1) = en_list(n);
+    %             y_regression(end+1) = en1_list(n);
+    %         end
+    % 
+    %     end
+    % 
+    % 
+    %  % plot(x0_guess,test_func01(x0_guess),'bo','markerfacecolor','b','markersize',5);
+    %  % 
+    %  % 
+    %  % plot(x_sol,test_func01(x_sol),'go','markerfacecolor','g','markersize',5);
+    %  loglog(en_list,en1_list,'r.', 'MarkerSize',5 ); hold on
+    %  loglog(x_regression,y_regression,'b.', 'MarkerSize',5);
+    %  [p,k] = generate_error_fit(x_regression,y_regression);
+    % % 
+    % %example for how to plot fit line
+    % %generate x data on a logarithmic range
+    % fit_line_x = 10.^[-16:.01:1];
+    % %compute the corresponding y values
+    % fit_line_y = k*fit_line_x.^p;
+    % %plot on a loglog plot.
+    % loglog(fit_line_x,fit_line_y,'k-','linewidth',1)
+    % 
+    % title("Newton's Method Error")
+    % xlabel('\epsilon_{n}')
+    % ylabel('\epsilon_{n+1}')
+    % legend("Raw Data", "Filtered Data", "Line of Best Fit")
+
+    %Secant method example test
+  
+    % plot(x0_guess,test_func01(x0_guess),'bo','markerfacecolor','b','markersize',5);
+    % plot(x1_guess,test_func01(x1_guess),'ko','markerfacecolor','k','markersize',5);
+    x0_guess = linspace(-2,-10,1000);
+    x1_guess = linspace(0.3,5,1000);
     en_list=[];
     en1_list=[];
     index_list = []; %line 36
     figure()
-
-
+     
+     
     for i=1:1000
-
-
-        [x_sol, xs_list, xs1_list] = newton_solver(@test_func01,x0_guess(i));  
-
-
-        en=abs(xs_list-x_sol);
-        en1=abs(xs1_list-x_sol);
+        [x_sol, x_lists, x1_lists] = secant_solver(@test_func01,x0_guess(i),x1_guess(i));
+        % plot(x_sol,test_func01(x_sol),'go','markerfacecolor','g','markersize',5);
+    
+        en=abs(x_lists-x_sol);
+        en1=abs(x1_lists-x_sol);
+        
         en_list=[en_list,en];
         en1_list=[en1_list,en1];
-
+    
         index_list = [index_list,1:length(en)]; %line 54
 
     end
@@ -48,16 +112,10 @@ function basic_solver_with_tests_template()
             end
 
         end
-
-
-     % plot(x0_guess,test_func01(x0_guess),'bo','markerfacecolor','b','markersize',5);
-     % 
-     % 
-     % plot(x_sol,test_func01(x_sol),'go','markerfacecolor','g','markersize',5);
-     loglog(en_list,en1_list,'r.', 'MarkerSize',5 ); hold on
-     loglog(x_regression,y_regression,'b.', 'MarkerSize',5);
-     [p,k] = generate_error_fit(x_regression,y_regression);
-    % 
+    loglog(en_list,en1_list,'r.', 'MarkerSize',5 ); hold on
+    loglog(x_regression,y_regression,'b.', 'MarkerSize',5);
+    [p,k] = generate_error_fit(x_regression,y_regression)
+    
     %example for how to plot fit line
     %generate x data on a logarithmic range
     fit_line_x = 10.^[-16:.01:1];
@@ -66,25 +124,11 @@ function basic_solver_with_tests_template()
     %plot on a loglog plot.
     loglog(fit_line_x,fit_line_y,'k-','linewidth',1)
 
-    title("Newton's Method Error")
+    title("Secant Method Error")
     xlabel('\epsilon_{n}')
     ylabel('\epsilon_{n+1}')
     legend("Raw Data", "Filtered Data", "Line of Best Fit")
 
-    second_d = 6*x_sol/100 - 1/4 - (6/4)*sin(x_sol/2 + 6) - exp(x_sol/6)/36
-    first_d = 3*(x_sol^2)/100 - 2*x_sol/8 + 2 +(6/2)*cos(x_sol/2+6) - exp(x_sol/6)/6;
-    predicted_k = 0.5*abs(second_d/first_d)
-
-    %Secant method example test
-    % x0_guess = -5;
-    % x1_guess = 2;
-    % plot(x0_guess,test_func01(x0_guess),'bo','markerfacecolor','b','markersize',5);
-    % plot(x1_guess,test_func01(x1_guess),'ko','markerfacecolor','k','markersize',5);
-    % 
-    % x_sol = secant_solver(@test_func01,x0_guess,x1_guess);
-    % plot(x_sol,test_func01(x_sol),'go','markerfacecolor','g','markersize',5);
-
-    
     % % Bisection method example test
     % x_left=linspace(-7,-0.2,1000);
     % x_right=linspace(0.2,7,1000);
@@ -246,20 +290,25 @@ function [xn, x_list, x1_list] = newton_solver(fun,x0)
     return;
 end
 
-function xn = secant_solver(fun,x0, x1)
+function [xn,x_list,x1_list] = secant_solver(fun,x0, x1)
     xn2=x0;
     xn1=x1;
     xn = xn1;
+    x_list=[];
+    x1_list=[];
     while abs(fun(xn))>1*10^-14
-
-        if abs(fun(xn1)-fun(xn2))<0.000000000000000000000005
+        fxn1 = fun(xn1);
+        fxn2 = fun(xn2);
+        if abs(fxn1-fxn2)<0.000000000000000000000005
             return
         end
-        xn = xn1-fun(xn1)*((xn1-xn2)/(fun(xn1)-fun(xn2)));
+        xn = xn1-fxn1*((xn1-xn2)/(fxn1-fxn2));
+        x_list=[x_list, xn];
+        x1_list=[x1_list, xn1];
         xn2=xn1;
         xn1=xn;
-
-        if abs(xn1-xn)<1*10^-14 && abs(fun(xn))<1*10^-14
+        
+        if abs(xn1-xn)<(1*10^-14) && abs(fun(xn))<(1*10^-14)
             return
         end
     end 
