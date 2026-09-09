@@ -84,11 +84,11 @@ function basic_solver_with_tests_template()
      
      
     for i=1:1000
-        [x_sol, x_lists, x1_lists] = secant_solver(@test_func01,x0_guess(i),x1_guess(i));
+        [x_sol, x_lists] = secant_solver(@test_func01,x0_guess(i),x1_guess(i));
         % plot(x_sol,test_func01(x_sol),'go','markerfacecolor','g','markersize',5);
     
-        en=abs(x_lists-x_sol);
-        en1=abs(x1_lists-x_sol);
+        en=abs(x_lists(1:end-1)-x_sol);
+        en1=abs(x_lists(2:end)-x_sol);
         
         en_list=[en_list,en];
         en1_list=[en1_list,en1];
@@ -290,23 +290,31 @@ function [xn, x_list, x1_list] = newton_solver(fun,x0)
     return;
 end
 
-function [xn,x_list,x1_list] = secant_solver(fun,x0, x1)
+function [xn,x_list] = secant_solver(fun,x0, x1)
     xn2=x0;
     xn1=x1;
     xn = xn1;
     x_list=[];
     x1_list=[];
-    while abs(fun(xn))>1*10^-14
-        fxn1 = fun(xn1);
-        fxn2 = fun(xn2);
-        if abs(fxn1-fxn2)<0.000000000000000000000005
+
+    fn1=fun(xn1);
+    fn2=fun(xn2);
+
+    while abs(fn1)>1*10^-14
+      
+        if abs(fun(xn1)-fun(xn2))<1e-6
             return
         end
-        xn = xn1-fxn1*((xn1-xn2)/(fxn1-fxn2));
+        xn = xn1-fn1*((xn1-xn2)/(fn1-fn2));
+
+        fnext=fun(xn);
         x_list=[x_list, xn];
-        x1_list=[x1_list, xn1];
+        % x1_list=[x1_list, xn1];
+
         xn2=xn1;
         xn1=xn;
+        fn2=fn1;
+        fn1= fnext;
         
         if abs(xn1-xn)<(1*10^-14) && abs(fun(xn))<(1*10^-14)
             return
