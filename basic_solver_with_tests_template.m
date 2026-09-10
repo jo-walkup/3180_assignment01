@@ -130,7 +130,7 @@ function basic_solver_with_tests_template()
     % ylabel('\epsilon_{n+1}')
     % legend("Raw Data", "Filtered Data", "Line of Best Fit")
 
-    % % Bisection method example test
+    % Bisection method example test
     % x_left=linspace(-7,-0.2,1000);
     % x_right=linspace(0.2,7,1000);
     % 
@@ -168,7 +168,7 @@ function basic_solver_with_tests_template()
     % y_regression = []; % e_{n+1}
     % filter_list = [1e-15, 1e-2, 1e-14, 1e-2, 2];
     % % iterate through the collected data
-    % for n=1:length(index_-list)
+    % for n=1:length(index_list)
     % %if the error is not too big or too small
     % %and it was enough iterations into the trial...
     %     if en_list(n)>filter_list(1) && en_list(n)<filter_list(2) && ...
@@ -179,7 +179,8 @@ function basic_solver_with_tests_template()
     %     y_regression(end+1) = en1_list(n);
     %     end
     % end
-    % 
+    % x_regression
+    % y_regression
     % loglog(en_list,en1_list,'r.', 'MarkerSize',5 ); hold on
     % loglog(x_regression,y_regression,'b.', 'MarkerSize',5);
     % 
@@ -197,14 +198,14 @@ function basic_solver_with_tests_template()
     % xlabel('\epsilon_{n}')
     % ylabel('\epsilon_{n+1}')
     % legend("Raw Data", "Filtered Data", "Line of Best Fit")
-
+    % 
 
 
 
 % Fzero yayy
 
 
-    x_guesses=linspace(0.5, 2, 1000);
+    x_guesses=linspace(0, 1, 1000);
 
     en_list=[];
     en1_list=[];
@@ -216,12 +217,13 @@ function basic_solver_with_tests_template()
     for i=1:1000
         % plot(x_left(i),test_func01(x_left(i)),'bo','markerfacecolor','b','markersize',5);
         % plot(x_right(i),test_func01(x_right(i)),'ko','markerfacecolor','k','markersize',5);
-    
+
         [x_sol, input_list] = input_recorder_example(x_guesses(i));
         %plot(x_sol,test_func01(x_sol),'go','markerfacecolor','g','markersize',5);
-    
-  
 
+
+        input_list_end_1 = input_list(1:end-1)
+        input_list_2 = input_list(2:end)
         x_current_list = [x_current_list,input_list(1:end-1)];
         x_next_list = [x_next_list,input_list(2:end)];
         index_list = [index_list,1:length(input_list)-1];
@@ -236,10 +238,10 @@ function basic_solver_with_tests_template()
     %currently have error_list0, error_list1, index_list
     %data points to be used in the regression
     length(index_list)
-
+    % en_list
     x_regression = []; % e_n
     y_regression = []; % e_{n+1}
-    filter_list = [1e-15, 1e-2, 1e-14, 1e-2, 2];
+    filter_list = [1e-15, 1e0, 1e-14, 1e0, 2];
     % iterate through the collected data
     for n=1:length(index_list)
     %if the error is not too big or too small
@@ -252,10 +254,10 @@ function basic_solver_with_tests_template()
             y_regression(end+1) = en1_list(n);
         end
     end
-    x_regression
-    y_regression
+    % length(x_regression)
+    % y_regression
     loglog(en_list,en1_list,'r.', 'MarkerSize',5 ); hold on
-    loglog(x_regression,y_regression,'b*', 'MarkerSize',5); hold on
+   % loglog(x_regression,y_regression,'b*', 'MarkerSize',5); hold on
 
     [p,k] = generate_error_fit(x_regression,y_regression)
 
@@ -270,7 +272,7 @@ function basic_solver_with_tests_template()
     title("fzero Method Error")
     xlabel('\epsilon_{n}')
     ylabel('\epsilon_{n+1}')
-    legend("Raw Data", "Filtered Data", "Line of Best Fit", "Location", "northwest")
+    legend("Raw Data", "Line of Best Fit", "Location", "northwest")
     axis([10e-20,10e0,10e-20,10e0])
 end
 
