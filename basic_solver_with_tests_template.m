@@ -12,7 +12,7 @@ function basic_solver_with_tests_template()
 
     % %Newton's method example test
     % 
-    % x0_guess = linspace(1,3.5,1000);
+    newton_guess1 = linspace(1,3.5,1000);
     % en_list=[];
     % en1_list=[];
     % index_list = []; %line 36
@@ -76,8 +76,8 @@ function basic_solver_with_tests_template()
   
     % plot(x0_guess,test_func01(x0_guess),'bo','markerfacecolor','b','markersize',5);
     % plot(x1_guess,test_func01(x1_guess),'ko','markerfacecolor','k','markersize',5);
-    % x0_guess = linspace(-2,-10,1000);
-    % x1_guess = linspace(0.3,5,1000);
+    secant_guess1 = linspace(-2,-10,1000);
+    secant_guess2 = linspace(0.3,5,1000);
     % en_list=[];
     % en1_list=[];
     % index_list = []; %line 36
@@ -134,8 +134,8 @@ function basic_solver_with_tests_template()
 
 
     % Bisection method example test
-    % x_left=linspace(-7,-0.2,1000);
-    % x_right=linspace(0.2,7,1000);
+    bisection_guess1 =linspace(-7,-0.2,1000);
+    bisection_guess2 =linspace(0.2,7,1000);
     % 
     % en_list=[];
     % en1_list=[];
@@ -208,7 +208,7 @@ function basic_solver_with_tests_template()
 % Fzero yayy
     % 
     % 
-    % x_guesses=linspace(0, 1, 1000);
+    fzero_guess1 =linspace(0, 1, 1000);
     % 
     % en_list=[];
     % en1_list=[];
@@ -246,7 +246,7 @@ function basic_solver_with_tests_template()
     % % en_list
     % x_regression = []; % e_n
     % y_regression = []; % e_{n+1}
-    % filter_list = [1e-15, 1e-2, 1e-14, 1e-2, 2];
+    filter_list = [1e-15, 1e-2, 1e-14, 1e-2, 2];
     % % iterate through the collected data
     % for n=1:length(index_list)
     % %if the error is not too big or too small
@@ -285,6 +285,7 @@ function basic_solver_with_tests_template()
 
 
     % TESTING BIG FUNCTION!!
+    convergence_analysis(4, @test_func01, 0, fzero_guess1, 0, filter_list)
 end
 
 %example for how to compute the fit line

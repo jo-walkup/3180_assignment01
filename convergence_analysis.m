@@ -47,7 +47,7 @@ function convergence_analysis(solver_flag, fun, ...
             method = "Secant";
         case 4
             for i=1:1000
-                [x_root, x_list] = input_recorder_example(fun, guess_list1(i), guess_list2(i));
+                [x_root, x_list] = input_recorder_example(fun, guess_list1(i));
                 en=abs(x_list(1:end-1)-x_root);
                 en1=abs(x_list(2:end)-x_root);
                 en_list=[en_list,en];
@@ -73,7 +73,7 @@ function convergence_analysis(solver_flag, fun, ...
     loglog(en_list,en1_list,'r.', 'MarkerSize',5 ); hold on
     loglog(x_regression,y_regression,'b.', 'MarkerSize',5);
 
-    [p,k] = generate_error_fit(x_regression,y_regression);
+    [p,k] = generate_error_fit(x_regression,y_regression)
     fit_line_x = 10.^[-16:.01:1];
     fit_line_y = k*fit_line_x.^p;
     loglog(fit_line_x,fit_line_y,'k-','linewidth',1)
@@ -81,5 +81,6 @@ function convergence_analysis(solver_flag, fun, ...
     title(method, " Method Error")
     xlabel('\epsilon_{n}')
     ylabel('\epsilon_{n+1}')
-    legend("Raw Data", "Filtered Data", "Line of Best Fit")
+    legend("Raw Data", "Filtered Data", "Line of Best Fit", "Location", "northwest")
+    axis([10e-20,10e0,10e-20,10e0])
 end
