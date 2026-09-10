@@ -1,5 +1,6 @@
 %template for testing your basic root finding implementations
 function basic_solver_with_tests_template()
+    close all
     xvals = linspace(-50,50,201);
     [yvals,~] = test_func01(xvals);
 
@@ -75,59 +76,59 @@ function basic_solver_with_tests_template()
   
     % plot(x0_guess,test_func01(x0_guess),'bo','markerfacecolor','b','markersize',5);
     % plot(x1_guess,test_func01(x1_guess),'ko','markerfacecolor','k','markersize',5);
-    x0_guess = linspace(-2,-10,1000);
-    x1_guess = linspace(0.3,5,1000);
-    en_list=[];
-    en1_list=[];
-    index_list = []; %line 36
-    figure()
-     
-     
-    for i=1:1000
-        [x_sol, x_lists] = secant_solver(@test_func01,x0_guess(i),x1_guess(i));
-        % plot(x_sol,test_func01(x_sol),'go','markerfacecolor','g','markersize',5);
-    
-        en=abs(x_lists(1:end-1)-x_sol);
-        en1=abs(x_lists(2:end)-x_sol);
-        
-        en_list=[en_list,en];
-        en1_list=[en1_list,en1];
-    
-        index_list = [index_list,1:length(en)]; %line 54
-
-    end
-        x_regression = []; % e_n
-        y_regression = []; % e_{n+1}
-        filter_list = [1e-15, 1e-2, 1e-14, 1e-2, 2];
-        % iterate through the collected data
-        for n=1:length(index_list)
-        %if the error is not too big or too small
-        %and it was enough iterations into the trial...
-            if en_list(n)>filter_list(1) && en_list(n)<filter_list(2) && ...
-            en1_list(n)>filter_list(3) && en1_list(n)<filter_list(4) && ...
-            index_list(n)>filter_list(5)
-                %then add it to the set of points for regression
-                x_regression(end+1) = en_list(n);
-                y_regression(end+1) = en1_list(n);
-            end
-
-        end
-    loglog(en_list,en1_list,'r.', 'MarkerSize',5 ); hold on
-    loglog(x_regression,y_regression,'b.', 'MarkerSize',5);
-    [p,k] = generate_error_fit(x_regression,y_regression)
-    
-    %example for how to plot fit line
-    %generate x data on a logarithmic range
-    fit_line_x = 10.^[-16:.01:1];
-    %compute the corresponding y values
-    fit_line_y = k*fit_line_x.^p;
-    %plot on a loglog plot.
-    loglog(fit_line_x,fit_line_y,'k-','linewidth',1)
-
-    title("Secant Method Error")
-    xlabel('\epsilon_{n}')
-    ylabel('\epsilon_{n+1}')
-    legend("Raw Data", "Filtered Data", "Line of Best Fit")
+    % x0_guess = linspace(-2,-10,1000);
+    % x1_guess = linspace(0.3,5,1000);
+    % en_list=[];
+    % en1_list=[];
+    % index_list = []; %line 36
+    % figure()
+    % 
+    % 
+    % for i=1:1000
+    %     [x_sol, x_lists] = secant_solver(@test_func01,x0_guess(i),x1_guess(i));
+    %     % plot(x_sol,test_func01(x_sol),'go','markerfacecolor','g','markersize',5);
+    % 
+    %     en=abs(x_lists(1:end-1)-x_sol);
+    %     en1=abs(x_lists(2:end)-x_sol);
+    % 
+    %     en_list=[en_list,en];
+    %     en1_list=[en1_list,en1];
+    % 
+    %     index_list = [index_list,1:length(en)]; %line 54
+    % 
+    % end
+    %     x_regression = []; % e_n
+    %     y_regression = []; % e_{n+1}
+    %     filter_list = [1e-15, 1e-2, 1e-14, 1e-2, 2];
+    %     % iterate through the collected data
+    %     for n=1:length(index_list)
+    %     %if the error is not too big or too small
+    %     %and it was enough iterations into the trial...
+    %         if en_list(n)>filter_list(1) && en_list(n)<filter_list(2) && ...
+    %         en1_list(n)>filter_list(3) && en1_list(n)<filter_list(4) && ...
+    %         index_list(n)>filter_list(5)
+    %             %then add it to the set of points for regression
+    %             x_regression(end+1) = en_list(n);
+    %             y_regression(end+1) = en1_list(n);
+    %         end
+    % 
+    %     end
+    % loglog(en_list,en1_list,'r.', 'MarkerSize',5 ); hold on
+    % loglog(x_regression,y_regression,'b.', 'MarkerSize',5);
+    % [p,k] = generate_error_fit(x_regression,y_regression)
+    % 
+    % %example for how to plot fit line
+    % %generate x data on a logarithmic range
+    % fit_line_x = 10.^[-16:.01:1];
+    % %compute the corresponding y values
+    % fit_line_y = k*fit_line_x.^p;
+    % %plot on a loglog plot.
+    % loglog(fit_line_x,fit_line_y,'k-','linewidth',1)
+    % 
+    % title("Secant Method Error")
+    % xlabel('\epsilon_{n}')
+    % ylabel('\epsilon_{n+1}')
+    % legend("Raw Data", "Filtered Data", "Line of Best Fit")
 
     % % Bisection method example test
     % x_left=linspace(-7,-0.2,1000);
@@ -167,7 +168,7 @@ function basic_solver_with_tests_template()
     % y_regression = []; % e_{n+1}
     % filter_list = [1e-15, 1e-2, 1e-14, 1e-2, 2];
     % % iterate through the collected data
-    % for n=1:length(index_list)
+    % for n=1:length(index_-list)
     % %if the error is not too big or too small
     % %and it was enough iterations into the trial...
     %     if en_list(n)>filter_list(1) && en_list(n)<filter_list(2) && ...
@@ -198,6 +199,79 @@ function basic_solver_with_tests_template()
     % legend("Raw Data", "Filtered Data", "Line of Best Fit")
 
 
+
+
+% Fzero yayy
+
+
+    x_guesses=linspace(0.5, 2, 1000);
+
+    en_list=[];
+    en1_list=[];
+    index_list = []; %line 36
+    figure()
+
+    x_current_list = [];
+    x_next_list = [];
+    for i=1:1000
+        % plot(x_left(i),test_func01(x_left(i)),'bo','markerfacecolor','b','markersize',5);
+        % plot(x_right(i),test_func01(x_right(i)),'ko','markerfacecolor','k','markersize',5);
+    
+        [x_sol, input_list] = input_recorder_example(x_guesses(i));
+        %plot(x_sol,test_func01(x_sol),'go','markerfacecolor','g','markersize',5);
+    
+  
+
+        x_current_list = [x_current_list,input_list(1:end-1)];
+        x_next_list = [x_next_list,input_list(2:end)];
+        index_list = [index_list,1:length(input_list)-1];
+
+        en=abs(x_current_list-x_sol);
+        en1=abs(x_next_list-x_sol);
+        en_list=[en_list,en];
+        en1_list=[en1_list,en1];
+    end
+
+    %example for how to filter the error data
+    %currently have error_list0, error_list1, index_list
+    %data points to be used in the regression
+    length(index_list)
+
+    x_regression = []; % e_n
+    y_regression = []; % e_{n+1}
+    filter_list = [1e-15, 1e-2, 1e-14, 1e-2, 2];
+    % iterate through the collected data
+    for n=1:length(index_list)
+    %if the error is not too big or too small
+    %and it was enough iterations into the trial...
+        if en_list(n)>filter_list(1) && en_list(n)<filter_list(2) && ...
+        en1_list(n)>filter_list(3) && en1_list(n)<filter_list(4) && ...
+        index_list(n)>filter_list(5)
+            %then add it to the set of points for regression
+            x_regression(end+1) = en_list(n);
+            y_regression(end+1) = en1_list(n);
+        end
+    end
+    x_regression
+    y_regression
+    loglog(en_list,en1_list,'r.', 'MarkerSize',5 ); hold on
+    loglog(x_regression,y_regression,'b*', 'MarkerSize',5); hold on
+
+    [p,k] = generate_error_fit(x_regression,y_regression)
+
+    %example for how to plot fit line
+    %generate x data on a logarithmic range
+    fit_line_x = 10.^[-16:.01:1];
+    %compute the corresponding y values
+    fit_line_y = k*fit_line_x.^p;
+    %plot on a loglog plot.
+    loglog(fit_line_x,fit_line_y,'k-','linewidth',2)
+
+    title("fzero Method Error")
+    xlabel('\epsilon_{n}')
+    ylabel('\epsilon_{n+1}')
+    legend("Raw Data", "Filtered Data", "Line of Best Fit", "Location", "northwest")
+    axis([10e-20,10e0,10e-20,10e0])
 end
 
 %example for how to compute the fit line
@@ -207,18 +281,18 @@ end
 %p and k are the output coefficients
 
 function [p,k] = generate_error_fit(x_regression,y_regression)
-%generate Y, X1, and X2
-%note that I use the transpose operator (')
-%to convert the result from a row vector to a column
-%If you are copy-pasting, the ' character may not work correctly
-Y = log(y_regression)';
-X1 = log(x_regression)';
-X2 = ones(length(X1),1);
-%run the regression
-coeff_vec = regress(Y,[X1,X2]);
-%pull out the coefficients from the fit
-p = coeff_vec(1);
-k = exp(coeff_vec(2));
+    %generate Y, X1, and X2
+    %note that I use the transpose operator (')
+    %to convert the result from a row vector to a column
+    %If you are copy-pasting, the ' character may not work correctly
+    Y = log(y_regression)';
+    X1 = log(x_regression)';
+    X2 = ones(length(X1),1);
+    %run the regression
+    coeff_vec = regress(Y,[X1,X2]);
+    %pull out the coefficients from the fit
+    p = coeff_vec(1);
+    k = exp(coeff_vec(2));
 end
 
 %Definition of the test function and its derivative (as a single function):
@@ -326,4 +400,31 @@ end
 
 
 
-
+% trying to record the history of fzero??
+function [x_root, input_list] = input_recorder_example(x0)
+    %Create an instance of the input_recorder
+    my_recorder = input_recorder();
+    %Use input_recorder to generate a version of the test function
+    %that records the input after every iteration
+    %Since test_fun is defined using function keyword
+    f_record = my_recorder.generate_recorder_fun(@test_func01);
+    %If test_fun is defined as an anonymous function:
+    %f_record = my_recorder.generate_recorder_fun(test_function);
+    %initialize guesses for fzero
+    % x0 = 2.7;
+    %Call your root finder using the recording function:
+    x_root = fzero(f_record,x0);
+    %See what input values were used when f_record was called:
+    input_list = my_recorder.get_input_list();
+    %at this point, input_list will be populated with the input arguments
+    %that fzero used to call test_function
+    %plot the inputs
+    %semilogy(1:length(input_list),abs(input_list-x_root),'ko','markerfacecolor','k');
+    %reset input_list for the next test
+    my_recorder.clear_input_list();
+end
+% function output = test_function(x)
+%     %perform the rest of the computation to generate output
+%     %I just put in a quadratic function as an example
+%     output = (x-3).*(x-7);
+% end
