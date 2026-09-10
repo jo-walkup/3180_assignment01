@@ -228,10 +228,12 @@ function basic_solver_with_tests_template()
         x_next_list = [x_next_list,input_list(2:end)];
         index_list = [index_list,1:length(input_list)-1];
 
-        en=abs(x_current_list-x_sol);
-        en1=abs(x_next_list-x_sol);
+        en=abs(input_list(1:end-1)-x_sol);
+        en1=abs(input_list(2:end)-x_sol);
         en_list=[en_list,en];
         en1_list=[en1_list,en1];
+
+       
     end
 
     %example for how to filter the error data
@@ -241,7 +243,7 @@ function basic_solver_with_tests_template()
     % en_list
     x_regression = []; % e_n
     y_regression = []; % e_{n+1}
-    filter_list = [1e-15, 1e0, 1e-14, 1e0, 2];
+    filter_list = [1e-15, 1e-2, 1e-14, 1e-2, 2];
     % iterate through the collected data
     for n=1:length(index_list)
     %if the error is not too big or too small
@@ -257,10 +259,11 @@ function basic_solver_with_tests_template()
     % length(x_regression)
     % y_regression
     loglog(en_list,en1_list,'r.', 'MarkerSize',5 ); hold on
-   % loglog(x_regression,y_regression,'b*', 'MarkerSize',5); hold on
+    loglog(x_regression,y_regression,'b*', 'MarkerSize',5); hold on
 
-    [p,k] = generate_error_fit(x_regression,y_regression)
-
+    [p,k] = generate_error_fit(x_regression,y_regression);
+    length(index_list)
+    length(en_list)
     %example for how to plot fit line
     %generate x data on a logarithmic range
     fit_line_x = 10.^[-16:.01:1];
@@ -272,7 +275,7 @@ function basic_solver_with_tests_template()
     title("fzero Method Error")
     xlabel('\epsilon_{n}')
     ylabel('\epsilon_{n+1}')
-    legend("Raw Data", "Line of Best Fit", "Location", "northwest")
+    legend("Raw Data", "filtered", "Line of Best Fit", "Location", "northwest")
     axis([10e-20,10e0,10e-20,10e0])
 end
 
