@@ -9,11 +9,11 @@ function [xn, x_list] = newton_solver(fun,x0)
 
         [fn, dfn] = fun(xn);
 
-        if abs(fn) < 5e-9
+        if abs(fn) < 0.00000000000000005
             return
         end
 
-        if abs(dfn) < 5e-24
+        if abs(dfn) < 0.00000000000000005
             return
         end
 
