@@ -18,7 +18,7 @@ function converge_sucess_test()
     newton_guess = linspace(1,50,1000);
 
     for i = 1:length(newton_guess)
-        [x_root, ~] = fzero_solver(@test_func03,newton_guess(i));
+        [x_root, ~] = input_recorder_example(@test_func03, newton_guess(i));
         
         if abs(x_root-26.1618)<0.0003
             s=[s, newton_guess(i)];
@@ -37,8 +37,8 @@ function converge_sucess_test()
     plot(0:50, (0:50)*0, "k--")
     xlabel("Input x")
     ylabel("Output f(x)")
-    legend("Converging guesses", "Diverging guesses", "Root", "Location", "northwest")
-    title("Newton's Method Guess Convergence Plot")
+    legend("Converging guesses", "Root", "Location", "northwest")
+    title("FZero Guess Convergence Plot")
 
     % fail = [];
     % faily = [];
