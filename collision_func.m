@@ -25,6 +25,5 @@ function [t_ground,t_wall] = collision_func(traj_fun, egg_params, y_ground, x_wa
 
      
        t=t+0.1;
-    end 
-end
+end 
 

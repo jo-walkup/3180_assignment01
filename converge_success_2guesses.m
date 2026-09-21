@@ -1,4 +1,7 @@
 function converge_success_2guesses()
+    set(groot, 'defaultTextInterpreter', 'latex');
+    set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
+    set(groot, 'defaultLegendInterpreter', 'latex');
     clc;
     clear;
     close all;
@@ -7,7 +10,7 @@ function converge_success_2guesses()
     root = bisection_solver(@test_func03, 26, 27);
     
     % Values for x_left and x_right
-    x = linspace(0, 50, 1000);
+    x = linspace(0, 50, 100);
     
     % Create grid of all possible endpoint combinations
     [x_left, x_right] = meshgrid(x, x);
@@ -34,10 +37,10 @@ function converge_success_2guesses()
     hold on;
     
     % Plot failed points in red
-    scatter(fleft, fright, 8, 'r', 'filled');
+    scatter(fleft, fright, 8, 'ro', 'filled');
     
     % Plot successful points in blue
-    scatter(sleft, sright, 8, 'b', 'filled');
+    scatter(sleft, sright, 8, 'bo', 'filled');
     
     % Plot root boundaries
     xline(root, 'k--', 'LineWidth', 1.5);
@@ -61,7 +64,7 @@ function converge_success_2guesses()
     % Legend
     legend('Failed', 'Success', 'Root', 'Location', 'northeast');
     
-    saveas(gcf, "bisection_sigmoid.png")
+    saveas(gcf, "secant_sigmoid.png")
 end
 
 function [f_val,dfdx] = test_func03(x)

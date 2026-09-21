@@ -4,11 +4,11 @@ function basic_solver_with_tests_template()
     xvals = linspace(-50,50,201);
     [yvals,~] = test_func01(xvals);
 
-    newton_guess1 = linspace(1,3.5,1000);
+    newton_guess1 = linspace(0,30,1000);
     newton_guess2 = 0;
 
-    secant_guess1 = linspace(-2,-10,1000);
-    secant_guess2 = linspace(0.3,5,1000);
+    secant_guess1 = linspace(-100, 100, 1000);
+    secant_guess2 = linspace(-50, 50, 1000);
 
     bisection_guess1 =linspace(-7,-0.2,1000);
     bisection_guess2 =linspace(0.2,7,1000);
@@ -18,9 +18,10 @@ function basic_solver_with_tests_template()
 
     filter_list = [1e-15, 1e-2, 1e-14, 1e-2, 2];
 
+
     % TESTING BIG FUNCTION!!
     % 1->Bisection 2-> Newton 3->Secant 4->fzero
-    convergence_analysis(3, @test_func01, 0, secant_guess1, secant_guess2, filter_list)
+    convergence_analysis(4, @test_func01, 0, fzero_guess1, secant_guess2, filter_list)
 end
 
 %example for how to compute the fit line
@@ -55,6 +56,13 @@ function [fval,dfdx] = test_func01(x)
     dfdx = 3*(x.^2)/100 - 2*x/8 + 2 +(6/2)*cos(x/2+6) - exp(x/6)/6;
 end
 
+%Quadratic function with root at the minimum
+function [f_val,dfdx] = test_func02(x)
+    global input_list;
+    input_list(:,end+1) = x;
+    f_val = (x-37.879).^2;
+    dfdx = 2*(x-37.879);
+end
 
 function [x,x_list, x_listn] = bisection_solver(fun,x_left,x_right)
     x_mid=(x_left+x_right)/2;
